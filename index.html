@@ -1,0 +1,1874 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập trắc nghiệm</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #f2f9ff, #e0f7fa);
+            padding: 20px;
+            margin: 0;
+            line-height: 1.6;
+            color: #333;
+        }
+        .real-image {
+            cursor: zoom-in; /* Hiển thị biểu tượng kính lúp */
+        }
+        h1, h2 {
+            text-align: center;
+            color: #00695c;
+            margin-top: 0px;      /* thêm dòng này */
+            margin-bottom: 5px;   /* giảm từ 0px thành 5px cho thoáng */
+            font-weight: 600;
+        }
+
+        .centered-text {
+            text-align: center;
+            font-size: 1.1em;
+            margin-top: 0;         /* thêm dòng này */
+            margin-bottom: 10px;    /* giảm khoảng cách */
+            color: #555;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .countdown-container {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #d32f2f;
+        }
+
+        #start-btn, #grade-button {
+            display: block;
+            margin: 25px auto;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 28px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        #start-btn {
+            background-color: #00acc1;
+            color: white;
+        }
+
+        #start-btn:hover {
+            background-color: #0097a7;
+            transform: translateY(-2px);
+        }
+
+        #grade-button {
+            background-color: #ef6c00;
+            color: white;
+        }
+
+        #grade-button:hover {
+            background-color: #e65100;
+            transform: translateY(-2px);
+        }
+
+        .question-section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px dashed #b2ebf2;
+        }
+
+        .question {
+            background: #ffffff;
+            border-radius: 12px;
+            border: 2px solid #b2ebf2;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+            padding: 25px;
+            margin-bottom: 30px;
+            transition: transform 0.2s ease;
+        }
+
+        .question:hover {
+            transform: translateY(-5px);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .label-button {
+            border: none;
+            border-radius: 25px;
+            padding: 8px 20px;
+            font-weight: bold;
+            font-size: 1.2em;
+            cursor: default;
+            background-color: #26a69a;
+            color: white;
+        }
+
+        .student-info {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #e0f7fa;
+            border-radius: 10px;
+        }
+
+        .student-info input[type="text"] {
+            width: 70%;
+            max-width: 400px;
+            padding: 12px;
+            border: 1px solid #a7d9e2;
+            border-radius: 8px;
+            font-size: 1em;
+            box-sizing: border-box;
+            margin-top: 10px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option {
+            display: flex;
+            align-items: flex-start; /* Quan trọng: Đổi từ center sang flex-start để neo mọi thứ lên trên */
+            padding: 12px 18px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            background: #fdfdfd;
+            cursor: pointer;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        .option:hover {
+            background-color: #e0f7fa;
+            border-color: #00acc1;
+        }
+
+        .option-label {
+            background-color: #00897b;
+            color: white;
+            font-weight: bold;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            text-align: center;
+            line-height: 35px;
+            margin-right: 15px;
+            flex-shrink: 0;
+            font-size: 0.9em;
+            margin-top: 2px; /* Thêm lề trên để căn giữa với dòng chữ đầu tiên */
+        }
+
+        /* CLASS CHUNG CHO MỌI KHU VỰC CÓ CẢ TEXT VÀ CÔNG THỨC TOÁN */
+        .text-math-container {
+            display: flex;       /* Dùng Flexbox để căn chỉnh các phần tử bên trong */
+            align-items: center; /* Căn giữa theo chiều dọc */
+            flex-wrap: wrap;     /* Cho phép xuống dòng nếu không đủ chỗ */
+            gap: 0.3em;          /* Khoảng cách nhỏ giữa text và công thức */
+            width: 100%;         /* Đảm bảo chiếm toàn bộ chiều rộng có sẵn */
+            padding-bottom: 15px; /* Thêm khoảng trống bên dưới lời dẫn */
+        }
+
+        .solution-text {
+            background: #e8f5e9;
+            padding: 15px 20px;
+            margin-top: 20px;
+            border-left: 6px solid #43a047;
+            border-radius: 8px;
+            display: none;
+            font-size: 0.95em;
+            color: #000;
+        }
+        /* === BỔ SUNG: Sửa khoảng cách dòng cho lời giải === */
+        .solution-text .text-math-container {
+            padding-bottom: 0;  /* Bỏ khoảng đệm 15px mặc định */
+            margin-bottom: 5px; /* Thêm một khoảng cách nhỏ giữa các dòng */
+            /* Bạn có thể tùy chỉnh thêm font-size/line-height cho lời giải nếu muốn */
+            font-size: 1.3em;   /* Ví dụ: giảm cỡ chữ một chút */
+            line-height: 1.6;   /* Ví dụ: giảm khoảng cách dòng một chút */
+        }
+        /* === KẾT THÚC BỔ SUNG === */
+        .solution-toggle {
+            
+            margin: 25px auto 15px auto;
+            background-color: #00c389;
+            color: white;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .solution-toggle:hover {
+            background-color: #009f70;
+            transform: translateY(-2px);
+        }
+
+        .question-title {
+            font-size: 1.15em;
+            font-weight: normal;     /* hoặc bỏ hẳn dòng này nếu không muốn đậm */
+            margin-bottom: 10px;
+            color: black;            /* thay vì #00695c */
+            text-transform: none;    /* đảm bảo chữ không bị viết hoa */
+        }
+        .question-subtitle {
+            font-style: italic;
+            margin-bottom: 20px;
+            color: #666;
+        }
+        .radio-buttons {
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: nowrap;
+        }
+        .radio-buttons label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #f0f0f0; /* nền xám nhạt */
+            border: 1px solid #66bde3;
+            border-radius: 20px;
+            padding: 6px 14px;
+            cursor: pointer;
+            transition: background 0.2s, border 0.2s;
+        }
+
+        .radio-buttons label:hover {
+            background: #ccecff; /* màu xanh nhạt hơn khi hover */
+            border-color: #339edb;
+        }
+
+        @media (max-width: 600px) {
+        .answer-row {
+            flex-direction: column;
+        }
+        .option-box, .radio-buttons {
+            width: 100%;
+        }
+        .radio-buttons {
+            justify-content: flex-start;
+            margin-top: 8px;
+            flex-wrap: nowrap;
+            flex-direction: row; /* giữ là row luôn */
+        }
+        }
+        .short-answer input[type="text"] {
+            width: 30%;
+            max-width: 250px;
+            padding: 12px;
+            font-size: 1em;
+            border-radius: 8px;
+            border: 1px solid #a7d9e2;
+            background-color: #f0f8ff;
+            text-align: center;
+            margin: 15px auto;
+            display: block; /* Ensures it takes full width for centering */
+            box-sizing: border-box;
+        }
+        /* Sửa lại CSS cho ảnh */
+        .image-wrapper {
+            display: flex;
+            justify-content: center; /* Căn giữa ảnh theo chiều ngang */
+            align-items: center;     /* Căn giữa theo chiều dọc */
+            width: 100%;
+            margin: 20px 0;
+            overflow: hidden;        /* Quan trọng: Ngăn không cho ảnh tràn ra ngoài khung */
+            border-radius: 12px;     /* Bo góc cho khung chứa */
+        }
+
+        img {
+            display: block;
+            max-width: 100%;         /* Ảnh không bao giờ rộng hơn khung chứa */
+            height: auto;
+            border-radius: 12px;     /* Bo góc cho ảnh */
+            transition: transform 0.2s ease;
+            cursor: zoom-in;
+        }
+
+        #report-area {
+            max-width: 800px;
+            margin: 40px auto 0 auto;
+            padding: 25px;
+            background: #e3f2fd;
+            border: 2px solid #90caf9;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            font-size: 1.1em;
+            color: #1a237e;
+        }
+
+        #report-area h3 {
+            text-align: center;
+            color: #0d47a1;
+            margin-bottom: 20px;
+        }
+
+        #report-area p {
+            margin-bottom: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+        .answer-row {
+            display: flex;
+            align-items: center; /* Căn giữa theo chiều dọc */
+            justify-content: space-between; /* Đẩy 2 phần ra 2 bên */
+            gap: 20px; /* Tùy chỉnh khoảng cách giữa phương án và nút */
+            margin-bottom: 15px; /* Tạo khoảng cách giữa các dòng */
+        }
+        .option.correct-answer {
+            background-color: #d4edda !important;
+            border-color: #28a745 !important;
+        }
+
+        .option.incorrect-answer {
+            background-color: #f8d7da !important;
+            border-color: #dc3545 !important;
+        }
+
+        .option.marked-correct { /* For the correct answer when user chose wrong or didn't choose */
+            background-color: #cce5ff !important;
+            border-color: #007bff !important;
+        }
+
+        /* For Short Answer inputs */
+        input[type="text"].correct-answer-input {
+            background-color: #d4edda !important;
+            border-color: #28a745 !important;
+        }
+
+        input[type="text"].incorrect-answer-input {
+            background-color: #f8d7da !important;
+            border-color: #dc3545 !important;
+        }
+        .disabled-button {
+            opacity: 0.6;
+            pointer-events: none;
+            cursor: not-allowed;
+        }
+        .option-box {
+            flex: 1;
+            min-width: 0;
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            padding: 12px;
+            box-sizing: border-box;
+            display: flex;
+            /* Căn lề trên (flex-start) thay vì 'center' */
+            /* Sẽ đẹp hơn khi nội dung văn bản có nhiều dòng */
+            align-items: flex-start;
+            gap: 6px; /* Giảm gap một chút (hoặc giữ 10px tùy bạn) */
+            /* Xóa flex-wrap: wrap; (nếu có) */
+        }
+
+        /* MỚI: Định nghĩa cho nội dung bên trong option-box */
+        /* (Chúng ta dùng .math-content giống như của MCQ) */
+        .option-box .math-content {
+            flex: 1; /* Cho phép nó chiếm phần không gian còn lại */
+            min-width: 0; /* Cần thiết để text-wrap hoạt động đúng trong flex */
+            /* Văn bản bên trong đây sẽ tự ngắt dòng tự nhiên */
+        }
+        input[type="radio"] {
+            accent-color: #0066cc;
+            transform: scale(1.4);
+        }
+
+        .option input[type="radio"] {
+            margin-right: 15px;
+            margin-top: 12px; /* Thêm lề trên để nút tick thẳng hàng với dòng chữ */
+            cursor: pointer;
+        }
+        #detailed-report ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        #detailed-report li {
+            margin: 6px 0;
+            padding: 8px 12px;
+            border-left: 6px solid #ccc;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+        }
+        #detailed-report li.correct {
+            border-left-color: #28a745;
+            background-color: #e6f4ea;
+        }
+        #detailed-report li.incorrect {
+            border-left-color: #dc3545;
+            background-color: #fcebea;
+        }
+        #report-area span {
+            font-weight: bold;
+            color: red;
+        }
+
+
+        .solution-toggle {
+            display: none; 
+        }
+        
+
+        .option-box {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            line-height: 1.6;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        /* === VÔ HIỆU HÓA COPY BẰNG CSS === */
+        body, .container {
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none;    /* Firefox */
+            -ms-user-select: none;     /* IE 10+ */
+            user-select: none;         /* Chuẩn */
+        }
+        /* === CSS CHO THIẾT BỊ DI ĐỘNG (MÀN HÌNH RỘNG TỐI ĐA 600px) === */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px; /* Giảm padding cho vừa màn hình */
+            }
+
+            /* Quy tắc hiển thị cho câu hỏi dạng Đúng/Sai */
+            .answer-row {
+                flex-direction: column;
+                align-items: flex-start; /* Căn các mục về bên trái */
+            }
+            .option-box, .radio-buttons {
+                width: 100%;
+            }
+            .radio-buttons {
+                justify-content: flex-start;
+                margin-top: 10px;
+            }
+
+            /* QUAN TRỌNG: Tăng cỡ chữ của tất cả các khu vực chứa text và toán */
+            .solution-text, .text-math-container, .option-box {
+                font-size: 1.2em; /* Tăng cỡ chữ lên một chút cho dễ đọc */
+                line-height: 1.7; /* Tăng khoảng cách dòng cho thoáng hơn */
+            }
+        }
+        /* === TĂNG CỠ CHỮ CHO NỘI DUNG CÂU HỎI & LỰA CHỌN (DESKTOP) === */
+        .text-math-container,
+        .option-box {
+            font-size: 1.3em;  /* Tăng cỡ chữ (bạn có thể chỉnh thành 1.2em nếu muốn) */
+            line-height: 1.7;   /* Tăng khoảng cách dòng cho thoáng */
+        }
+
+            </style>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            },
+            chtml: {
+                // Yêu cầu MathJax cố gắng khớp với chiều cao font của văn bản xung quanh.
+                matchFontHeight: true, 
+                // Đặt một tỉ lệ scale tối thiểu để công thức không bao giờ quá nhỏ.
+                minScale: 0.8 
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <div class="container">
+            <h1>ĐỀ TỰ LUYỆN - Hệ phương trình (02)</h1>
+        <h2 id="teacher-name">Nguyễn Hữu Biển</h2>
+
+            <div class="student-info">
+            <p>Vui lòng nhập tên của bạn để bắt đầu:</p>
+            <input type="text" id="studentName" placeholder="Họ và tên của bạn">
+            <button id="start-btn">Bắt đầu làm bài</button>
+        </div>
+
+        <div id="quiz-content" class="hidden">
+            <div class="countdown-container">Thời gian còn lại: <span id="countdown"></span></div>
+<div class='question-section' id='mcq-section'>
+  <h2>Phần I: Trắc nghiệm nhiều lựa chọn</h2>
+  <p class='centered-text'>Chọn một đáp án đúng nhất cho mỗi câu hỏi.</p>
+  <div class='question' id='mcq-q1'>
+    <div class='question-header'><button class='label-button'>Câu 1</button></div>
+    <div class='text-math-container'><p>Hệ phương trình $\begin{cases} x + y = 3 \\ x + 2y = -5 \end{cases}$ nhận cặp số nào sau đây là nghiệm?</p></div>
+    <div class='options'>
+        <label class="option">
+            <input type="radio" name="mcq-q1" value="A">
+            <div class="option-label">A</div>
+            <div class="math-content text-math-container">$(-11; 8)$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q1" value="B">
+            <div class="option-label">B</div>
+            <div class="math-content text-math-container">$(11; -8)$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q1" value="C">
+            <div class="option-label">C</div>
+            <div class="math-content text-math-container">$(-11; -8)$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q1" value="D">
+            <div class="option-label">D</div>
+            <div class="math-content text-math-container">$(11; 8)$.</div> 
+        </label>
+    </div>
+    <button class="solution-toggle" onclick="toggleSolution('mcq-q1')">Hiện (Ẩn) lời giải</button>
+    <div id="solution-mcq-q1" class="solution-text">
+    <p><strong>Lời giải:</strong></p>
+    <div class='text-math-container'>Giải hệ phương trình ta thu được $\begin{cases} x = 11 \\ y = -8 \end{cases}$.</div>
+    </div>
+  </div>
+  <div class='question' id='mcq-q2'>
+    <div class='question-header'><button class='label-button'>Câu 2</button></div>
+    <div class='text-math-container'><p>Cho hệ phương trình $\begin{cases} -2x + 2y = -1 \\ 3x + y = 7 \end{cases}$. Khi giải hệ phương trình bằng phương pháp thế (biểu diễn $y$ theo $x$), ta được hệ thức biểu diễn $y$ theo $x$ là</p></div>
+    <div class='options'>
+        <label class="option">
+            <input type="radio" name="mcq-q2" value="A">
+            <div class="option-label">A</div>
+            <div class="math-content text-math-container">$y = 7 + 3x$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q2" value="B">
+            <div class="option-label">B</div>
+            <div class="math-content text-math-container">$y = 7 - 3x$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q2" value="C">
+            <div class="option-label">C</div>
+            <div class="math-content text-math-container">$y = 3x - 7$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q2" value="D">
+            <div class="option-label">D</div>
+            <div class="math-content text-math-container">$y = -1 + 2x$.</div> 
+        </label>
+    </div>
+    <button class="solution-toggle" onclick="toggleSolution('mcq-q2')">Hiện (Ẩn) lời giải</button>
+    <div id="solution-mcq-q2" class="solution-text">
+    <p><strong>Lời giải:</strong></p>
+    <div class='text-math-container'>Từ phương trình $3x + y = 7$, ta biểu diễn được $y = 7 - 3x$.</div>
+    </div>
+  </div>
+  <div class='question' id='mcq-q3'>
+    <div class='question-header'><button class='label-button'>Câu 3</button></div>
+    <div class='text-math-container'><p>Biết hệ phương trình $\begin{cases} ax - 3y = 1 \\ x + by = -5 \end{cases}$ nhận cặp số $(2; -3)$ là một nghiệm. Khi đó, giá trị của $a, b$ là</p></div>
+    <div class='options'>
+        <label class="option">
+            <input type="radio" name="mcq-q3" value="A">
+            <div class="option-label">A</div>
+            <div class="math-content text-math-container">$a = 4; b = \frac{7}{3}$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q3" value="B">
+            <div class="option-label">B</div>
+            <div class="math-content text-math-container">$a = -4; b = \frac{7}{3}$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q3" value="C">
+            <div class="option-label">C</div>
+            <div class="math-content text-math-container">$a = 4; b = -\frac{7}{3}$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q3" value="D">
+            <div class="option-label">D</div>
+            <div class="math-content text-math-container">$a = -4; b = -\frac{7}{3}$.</div> 
+        </label>
+    </div>
+    <button class="solution-toggle" onclick="toggleSolution('mcq-q3')">Hiện (Ẩn) lời giải</button>
+    <div id="solution-mcq-q3" class="solution-text">
+    <p><strong>Lời giải:</strong></p>
+    <div class='text-math-container'>Thay $x = 2, y = -3$ vào hệ ta có $\begin{cases} a(2) - 3(-3) = 1 \\ 2 + b(-3) = -5 \end{cases} \Leftrightarrow \begin{cases} 2a + 9 = 1 \\ 2 - 3b = -5 \end{cases} \Leftrightarrow \begin{cases} a = -4 \\ b = \frac{7}{3} \end{cases}$.</div>
+    </div>
+  </div>
+  <div class='question' id='mcq-q4'>
+    <div class='question-header'><button class='label-button'>Câu 4</button></div>
+    <div class='text-math-container'><p>Hệ phương trình $\begin{cases} 3(x+y)+2(x-y)=6 \\ (x+y)+3(x-y)=4 \end{cases}$ nhận cặp số nào sau đây là nghiệm?</p></div>
+    <div class='options'>
+        <label class="option">
+            <input type="radio" name="mcq-q4" value="A">
+            <div class="option-label">A</div>
+            <div class="math-content text-math-container">$\left( \frac{8}{7}; \frac{2}{7} \right)$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q4" value="B">
+            <div class="option-label">B</div>
+            <div class="math-content text-math-container">$\left( -\frac{8}{7}; \frac{2}{7} \right)$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q4" value="C">
+            <div class="option-label">C</div>
+            <div class="math-content text-math-container">$\left( \frac{8}{7}; -\frac{2}{7} \right)$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q4" value="D">
+            <div class="option-label">D</div>
+            <div class="math-content text-math-container">$\left( -\frac{8}{7}; -\frac{2}{7} \right)$.</div> 
+        </label>
+    </div>
+    <button class="solution-toggle" onclick="toggleSolution('mcq-q4')">Hiện (Ẩn) lời giải</button>
+    <div id="solution-mcq-q4" class="solution-text">
+    <p><strong>Lời giải:</strong></p>
+    <div class='text-math-container'>Giải hệ phương trình ta thu được $\begin{cases} x = \frac{8}{7} \\ y = \frac{2}{7} \end{cases}$.</div>
+    </div>
+  </div>
+  <div class='question' id='mcq-q5'>
+    <div class='question-header'><button class='label-button'>Câu 5</button></div>
+    <div class='text-math-container'><p>Cho hệ phương trình $\begin{cases} x+y=2 \\ 2x-5y=11 \end{cases}$ có nghiệm là $(x; y)$. Khi đó tổng của $x$ và $y$ bằng</p></div>
+    <div class='options'>
+        <label class="option">
+            <input type="radio" name="mcq-q5" value="A">
+            <div class="option-label">A</div>
+            <div class="math-content text-math-container">$-1$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q5" value="B">
+            <div class="option-label">B</div>
+            <div class="math-content text-math-container">$3$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q5" value="C">
+            <div class="option-label">C</div>
+            <div class="math-content text-math-container">$-2$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q5" value="D">
+            <div class="option-label">D</div>
+            <div class="math-content text-math-container">$2$.</div> 
+        </label>
+    </div>
+    <button class="solution-toggle" onclick="toggleSolution('mcq-q5')">Hiện (Ẩn) lời giải</button>
+    <div id="solution-mcq-q5" class="solution-text">
+    <p><strong>Lời giải:</strong></p>
+    <div class='text-math-container'>Từ phương trình thứ nhất của hệ, ta có ngay tổng $x + y = 2$.</div>
+    </div>
+  </div>
+  <div class='question' id='mcq-q6'>
+    <div class='question-header'><button class='label-button'>Câu 6</button></div>
+    <div class='text-math-container'><p>Cho hệ phương trình $\begin{cases} x+3y=1 \\ 2x-y=-5 \end{cases}$ có nghiệm là $(x; y)$. Tổng lập phương của $x$ và $y$ là</p></div>
+    <div class='options'>
+        <label class="option">
+            <input type="radio" name="mcq-q6" value="A">
+            <div class="option-label">A</div>
+            <div class="math-content text-math-container">$-1$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q6" value="B">
+            <div class="option-label">B</div>
+            <div class="math-content text-math-container">$-7$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q6" value="C">
+            <div class="option-label">C</div>
+            <div class="math-content text-math-container">$1$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q6" value="D">
+            <div class="option-label">D</div>
+            <div class="math-content text-math-container">$5$.</div> 
+        </label>
+    </div>
+    <button class="solution-toggle" onclick="toggleSolution('mcq-q6')">Hiện (Ẩn) lời giải</button>
+    <div id="solution-mcq-q6" class="solution-text">
+    <p><strong>Lời giải:</strong></p>
+    <div class='text-math-container'>Giải hệ phương trình ta được $x = -2, y = 1$. Khi đó $x^3 + y^3 = (-2)^3 + 1^3 = -7$.</div>
+    </div>
+  </div>
+  <div class='question' id='mcq-q7'>
+    <div class='question-header'><button class='label-button'>Câu 7</button></div>
+    <div class='text-math-container'><p>Cho hệ phương trình $\begin{cases} 3x+y=19 \\ x-2y=4 \end{cases}$ có nghiệm là $(x; y)$. Bình phương hiệu hai số $x$ và $y$ bằng</p></div>
+    <div class='options'>
+        <label class="option">
+            <input type="radio" name="mcq-q7" value="A">
+            <div class="option-label">A</div>
+            <div class="math-content text-math-container">$25$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q7" value="B">
+            <div class="option-label">B</div>
+            <div class="math-content text-math-container">$35$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q7" value="C">
+            <div class="option-label">C</div>
+            <div class="math-content text-math-container">$37$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q7" value="D">
+            <div class="option-label">D</div>
+            <div class="math-content text-math-container">$49$.</div> 
+        </label>
+    </div>
+    <button class="solution-toggle" onclick="toggleSolution('mcq-q7')">Hiện (Ẩn) lời giải</button>
+    <div id="solution-mcq-q7" class="solution-text">
+    <p><strong>Lời giải:</strong></p>
+    <div class='text-math-container'>Giải hệ phương trình ta được $x = 6, y = 1$. Khi đó $(x - y)^2 = (6 - 1)^2 = 25$.</div>
+    </div>
+  </div>
+  <div class='question' id='mcq-q8'>
+    <div class='question-header'><button class='label-button'>Câu 8</button></div>
+    <div class='text-math-container'><p>Cho hệ phương trình $\begin{cases} (x-1)(y+1) = xy - 2 \\ (x+2)(y-1) = xy + 6 \end{cases}$ có nghiệm là $(x; y)$. Tổng bình phương của $x$ và $y$ là</p></div>
+    <div class='options'>
+        <label class="option">
+            <input type="radio" name="mcq-q8" value="A">
+            <div class="option-label">A</div>
+            <div class="math-content text-math-container">$1$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q8" value="B">
+            <div class="option-label">B</div>
+            <div class="math-content text-math-container">$85$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q8" value="C">
+            <div class="option-label">C</div>
+            <div class="math-content text-math-container">$169$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q8" value="D">
+            <div class="option-label">D</div>
+            <div class="math-content text-math-container">$181$.</div> 
+        </label>
+    </div>
+    <button class="solution-toggle" onclick="toggleSolution('mcq-q8')">Hiện (Ẩn) lời giải</button>
+    <div id="solution-mcq-q8" class="solution-text">
+    <p><strong>Lời giải:</strong></p>
+    <div class='text-math-container'>Rút gọn hệ phương trình ta được $\begin{cases} x - y = -1 \\ -x + 2y = 8 \end{cases} \Leftrightarrow \begin{cases} x = 6 \\ y = 7 \end{cases}$. Tổng bình phương $x^2 + y^2 = 6^2 + 7^2 = 85$.</div>
+    </div>
+  </div>
+  <div class='question' id='mcq-q9'>
+    <div class='question-header'><button class='label-button'>Câu 9</button></div>
+    <div class='text-math-container'><p>Với giá trị nào của $a, b$ để đồ thị hàm số $y = ax + b$ đi qua hai điểm $A(1; 13)$ và $B(-5; 1)$?</p></div>
+    <div class='options'>
+        <label class="option">
+            <input type="radio" name="mcq-q9" value="A">
+            <div class="option-label">A</div>
+            <div class="math-content text-math-container">$a = 11; b = 2$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q9" value="B">
+            <div class="option-label">B</div>
+            <div class="math-content text-math-container">$a = 2; b = 11$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q9" value="C">
+            <div class="option-label">C</div>
+            <div class="math-content text-math-container">$a = -11; b = -2$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q9" value="D">
+            <div class="option-label">D</div>
+            <div class="math-content text-math-container">$a = -2; b = -11$.</div> 
+        </label>
+    </div>
+    <button class="solution-toggle" onclick="toggleSolution('mcq-q9')">Hiện (Ẩn) lời giải</button>
+    <div id="solution-mcq-q9" class="solution-text">
+    <p><strong>Lời giải:</strong></p>
+    <div class='text-math-container'>Thay tọa độ $A$ và $B$ vào hàm số ta có hệ phương trình $\begin{cases} a + b = 13 \\ -5a + b = 1 \end{cases} \Leftrightarrow \begin{cases} a = 2 \\ b = 11 \end{cases}$.</div>
+    </div>
+  </div>
+  <div class='question' id='mcq-q10'>
+    <div class='question-header'><button class='label-button'>Câu 10</button></div>
+    <div class='text-math-container'><p>Với giá trị nào của tham số $m$ thì hệ phương trình $\begin{cases} 2x + y = 3 \\ (2m+1)x + 2y = 7 \end{cases}$ có nghiệm duy nhất $x = y$?</p></div>
+    <div class='options'>
+        <label class="option">
+            <input type="radio" name="mcq-q10" value="A">
+            <div class="option-label">A</div>
+            <div class="math-content text-math-container">$m = 1$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q10" value="B">
+            <div class="option-label">B</div>
+            <div class="math-content text-math-container">$m = 2$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q10" value="C">
+            <div class="option-label">C</div>
+            <div class="math-content text-math-container">$m = 3$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q10" value="D">
+            <div class="option-label">D</div>
+            <div class="math-content text-math-container">$m = 4$.</div> 
+        </label>
+    </div>
+    <button class="solution-toggle" onclick="toggleSolution('mcq-q10')">Hiện (Ẩn) lời giải</button>
+    <div id="solution-mcq-q10" class="solution-text">
+    <p><strong>Lời giải:</strong></p>
+    <div class='text-math-container'>Thay $x = y$ vào phương trình đầu ta được $3x = 3 \Rightarrow x = 1, y = 1$. Thay $x=1, y=1$ vào phương trình hai: $(2m+1) \cdot 1 + 2 \cdot 1 = 7 \Leftrightarrow 2m + 3 = 7 \Leftrightarrow m = 2$.</div>
+    </div>
+  </div>
+  <div class='question' id='mcq-q11'>
+    <div class='question-header'><button class='label-button'>Câu 11</button></div>
+    <div class='text-math-container'><p>Có bao nhiêu giá trị nguyên của $m$ để hệ phương trình $\begin{cases} mx + 2my = m + 1 \\ x + (m+1)y = 2 \end{cases}$ có nghiệm duy nhất $(x; y)$ sao cho $G = x - y$ nhận giá trị nguyên?</p></div>
+    <div class='options'>
+        <label class="option">
+            <input type="radio" name="mcq-q11" value="A">
+            <div class="option-label">A</div>
+            <div class="math-content text-math-container">$1$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q11" value="B">
+            <div class="option-label">B</div>
+            <div class="math-content text-math-container">$2$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q11" value="C">
+            <div class="option-label">C</div>
+            <div class="math-content text-math-container">$3$.</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q11" value="D">
+            <div class="option-label">D</div>
+            <div class="math-content text-math-container">$4$.</div> 
+        </label>
+    </div>
+    <button class="solution-toggle" onclick="toggleSolution('mcq-q11')">Hiện (Ẩn) lời giải</button>
+    <div id="solution-mcq-q11" class="solution-text">
+    <p><strong>Lời giải:</strong></p>
+    <div class='text-math-container'>Điều kiện nghiệm duy nhất: $D = m(m-1) \neq 0 \Leftrightarrow m \neq 0, m \neq 1$.</div>
+    <div class='text-math-container'>Giải hệ theo $m$ ta được $x = \frac{m-1}{m}, y = \frac{1}{m}$. Khi đó $G = x - y = \frac{m-2}{m} = 1 - \frac{2}{m}$.</div>
+    <div class='text-math-container'>Để $G$ nguyên thì $m$ là ước của $2 \Rightarrow m \in \{-2; -1; 1; 2\}$. Đối chiếu điều kiện ta được $m \in \{-2; -1; 2\}$. Có $3$ giá trị thỏa mãn.</div>
+    </div>
+  </div>
+  <div class='question' id='mcq-q12'>
+    <div class='question-header'><button class='label-button'>Câu 12</button></div>
+    <div class='text-math-container'><p>Cho $(x; y)$ là nghiệm của hệ phương trình $\begin{cases} \frac{3}{x} + \frac{2}{y} = 7 \\ \frac{2}{x} - \frac{5}{y} = -27 \end{cases}$ và cùng với các khẳng định sau:</p></div>
+    <div class='text-math-container'><p>(i) Hệ phương trình cho điều kiện xác định là $x \neq 0$ và $y \neq 0$.</p></div>
+    <div class='text-math-container'><p>(ii) Hệ phương trình có nghiệm là $(-1; 5)$.</p></div>
+    <div class='text-math-container'><p>(iii) Tổng bình phương của $x$ và $y$ lớn hơn $20$.</p></div>
+    <div class='text-math-container'><p>Có bao nhiêu khẳng định đúng trong các khẳng định trên?</p></div>
+    <div class='options'>
+        <label class="option">
+            <input type="radio" name="mcq-q12" value="A">
+            <div class="option-label">A</div>
+            <div class="math-content text-math-container">0</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q12" value="B">
+            <div class="option-label">B</div>
+            <div class="math-content text-math-container">1</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q12" value="C">
+            <div class="option-label">C</div>
+            <div class="math-content text-math-container">2</div> 
+        </label>
+        <label class="option">
+            <input type="radio" name="mcq-q12" value="D">
+            <div class="option-label">D</div>
+            <div class="math-content text-math-container">3</div> 
+        </label>
+    </div>
+    <button class="solution-toggle" onclick="toggleSolution('mcq-q12')">Hiện (Ẩn) lời giải</button>
+    <div id="solution-mcq-q12" class="solution-text">
+    <p><strong>Lời giải:</strong></p>
+    <div class='text-math-container'>Điều kiện xác định của hệ là $x \neq 0, y \neq 0$. Vậy khẳng định (i) đúng.</div>
+    <div class='text-math-container'>Giải hệ phương trình ta thu được $x = -1, y = \frac{1}{5}$. Vậy khẳng định (ii) sai.</div>
+    <div class='text-math-container'>Ta có $x^2 + y^2 = (-1)^2 + \left(\frac{1}{5}\right)^2 = 1,04 < 20$. Vậy khẳng định (iii) sai.</div>
+    <div class='text-math-container'>Do đó, chỉ có $1$ khẳng định đúng.</div>
+    </div>
+  </div>
+</div>
+<div class='question-section' id='tf-section'>
+  <h2>Phần II: Trắc nghiệm Đúng Sai</h2>
+  <p class='centered-text'>Xác định tính đúng (Đ) hoặc sai (S) của các phát biểu sau.</p>
+  <div class='question' id='tf-q1'>
+    <div class='question-header'><button class='label-button'>Câu 13</button></div>
+    <div class='question-title'>
+      <div class='text-math-container'><p>Cho hệ phương trình $\begin{cases} x + my = 2 \\ mx - 2y = 1 \end{cases}$ (với $m$ là tham số).</p></div>
+    </div>
+    <div class='answer-row'>
+        <div class='option-box'>
+          <div class='option-label'>a)</div>
+          <div class='math-content'>Hệ phương trình luôn có nghiệm duy nhất với mọi giá trị thực của tham số $m$.</div>
+        </div>
+        <div class='radio-buttons'>
+          <label><input type='radio' name='tf-q1a' value='Đ'> Đúng</label>
+          <label><input type='radio' name='tf-q1a' value='S'> Sai</label>
+        </div>
+      </div>
+    <div class='answer-row'>
+        <div class='option-box'>
+          <div class='option-label'>b)</div>
+          <div class='math-content'>Khi hệ phương trình có nghiệm duy nhất, nghiệm đó là $(x; y) = \left( \frac{m + 4}{m^2 + 2}; \frac{2m - 1}{m^2 + 2} \right)$.</div>
+        </div>
+        <div class='radio-buttons'>
+          <label><input type='radio' name='tf-q1b' value='Đ'> Đúng</label>
+          <label><input type='radio' name='tf-q1b' value='S'> Sai</label>
+        </div>
+      </div>
+    <div class='answer-row'>
+        <div class='option-box'>
+          <div class='option-label'>c)</div>
+          <div class='math-content'>Có $5$ giá trị nguyên của tham số $m$ để hệ có nghiệm duy nhất $(x; y)$ thỏa mãn $x > 0$ và $y < 0$.</div>
+        </div>
+        <div class='radio-buttons'>
+          <label><input type='radio' name='tf-q1c' value='Đ'> Đúng</label>
+          <label><input type='radio' name='tf-q1c' value='S'> Sai</label>
+        </div>
+      </div>
+    <div class='answer-row'>
+        <div class='option-box'>
+          <div class='option-label'>d)</div>
+          <div class='math-content'>Có đúng $1$ giá trị nguyên của tham số $m$ để hệ có nghiệm duy nhất $(x; y)$ mà $x, y$ đều là các số nguyên.</div>
+        </div>
+        <div class='radio-buttons'>
+          <label><input type='radio' name='tf-q1d' value='Đ'> Đúng</label>
+          <label><input type='radio' name='tf-q1d' value='S'> Sai</label>
+        </div>
+      </div>
+    <button class='solution-toggle' onclick="toggleSolution('tf-q1')">Hiện (Ẩn) lời giải</button>
+    <div class='solution-text' id='solution-tf-q1'>
+      <p><strong>Lời giải:</strong></p>
+    <div class='text-math-container'>a) Từ hệ phương trình, ta có phương trình thứ nhất tương đương với $x = 2 - my$. Thế vào phương trình thứ hai, ta được:</div>
+    <div class='text-math-container'>$m(2 - my) - 2y = 1 \Leftrightarrow 2m - m^2y - 2y = 1 \Leftrightarrow y(m^2 + 2) = 2m - 1$.</div>
+    <div class='text-math-container'>Vì $m^2 \ge 0$ nên $m^2 + 2 \ge 2 > 0$ với mọi $m$. Do đó, phương trình luôn có nghiệm $y$ duy nhất. Kéo theo hệ luôn có nghiệm $(x; y)$ duy nhất.</div>
+    <div class='text-math-container'>b) Với mọi $m$, ta có $y = \frac{2m - 1}{m^2 + 2}$.</div>
+    <div class='text-math-container'>Thay vào biểu thức của $x$, ta được:</div>
+    <div class='text-math-container'>$x = 2 - m \cdot \frac{2m - 1}{m^2 + 2} = \frac{2(m^2 + 2) - 2m^2 + m}{m^2 + 2} = \frac{m + 4}{m^2 + 2}$.</div>
+    <div class='text-math-container'>Vậy nghiệm duy nhất của hệ là $(x; y) = \left( \frac{m + 4}{m^2 + 2}; \frac{2m - 1}{m^2 + 2} \right)$.</div>
+    <div class='text-math-container'>c) Để $x > 0$ và $y < 0$, ta có:</div>
+    <div class='text-math-container'>$\begin{cases} \frac{m + 4}{m^2 + 2} > 0 \\ \frac{2m - 1}{m^2 + 2} < 0 \end{cases}$</div>
+    <div class='text-math-container'>Vì $m^2 + 2 > 0$, điều kiện tương đương với:</div>
+    <div class='text-math-container'>$\begin{cases} m + 4 > 0 \\ 2m - 1 < 0 \end{cases} \Leftrightarrow \begin{cases} m > -4 \\ m < \frac{1}{2} \end{cases} \Leftrightarrow -4 < m < \frac{1}{2}$.</div>
+    <div class='text-math-container'>Vì $m \in \mathbb{Z}$ nên $m \in \{-3; -2; -1; 0\}$. Có $4$ giá trị nguyên của $m$ thỏa mãn, không phải $5$.</div>
+    <div class='text-math-container'>d) Để $x, y \in \mathbb{Z}$, ta cần $x = \frac{m + 4}{m^2 + 2} \in \mathbb{Z}$ và $y = \frac{2m - 1}{m^2 + 2} \in \mathbb{Z}$.</div>
+    <div class='text-math-container'>Nếu $x \in \mathbb{Z}$, thì do $m \in \mathbb{Z}$ nên biểu thức $(m - 4)x$ cũng phải là số nguyên.</div>
+    <div class='text-math-container'>Ta có: $(m - 4)x = \frac{(m - 4)(m + 4)}{m^2 + 2} = \frac{m^2 - 16}{m^2 + 2} = 1 - \frac{18}{m^2 + 2}$.</div>
+    <div class='text-math-container'>Để $(m - 4)x \in \mathbb{Z}$ thì $18 \vdots (m^2 + 2)$. Mà $m^2 + 2 \ge 2$, nên $m^2 + 2 \in \{2; 3; 6; 9; 18\}$.</div>
+    <div class='text-math-container'>Suy ra $m^2 \in \{0; 1; 4; 7; 16\}$. Do $m \in \mathbb{Z}$ nên $m \in \{0; 1; -1; 2; -2; 4; -4\}$.</div>
+    <div class='text-math-container'>Thử lại các giá trị của $m$ vào biểu thức $y = \frac{2m - 1}{m^2 + 2}$:</div>
+    <div class='text-math-container'>- $m = 0 \Rightarrow y = -\frac{1}{2} \notin \mathbb{Z}$.</div>
+    <div class='text-math-container'>- $m = 1 \Rightarrow y = \frac{1}{3} \notin \mathbb{Z}$.</div>
+    <div class='text-math-container'>- $m = -1 \Rightarrow y = -1 \in \mathbb{Z}$ (Khi đó $x = 1 \in \mathbb{Z}$, thỏa mãn).</div>
+    <div class='text-math-container'>- $m = 2 \Rightarrow y = \frac{1}{2} \notin \mathbb{Z}$.</div>
+    <div class='text-math-container'>- $m = -2 \Rightarrow y = -\frac{5}{6} \notin \mathbb{Z}$.</div>
+    <div class='text-math-container'>- $m = 4 \Rightarrow y = \frac{7}{18} \notin \mathbb{Z}$.</div>
+    <div class='text-math-container'>- $m = -4 \Rightarrow y = -\frac{1}{2} \notin \mathbb{Z}$.</div>
+    <div class='text-math-container'>Vậy chỉ có duy nhất $1$ giá trị $m = -1$ thỏa mãn yêu cầu bài toán.</div>
+    </div>
+  </div>
+  <div class='question' id='tf-q2'>
+    <div class='question-header'><button class='label-button'>Câu 14</button></div>
+    <div class='question-title'>
+      <div class='text-math-container'><p>Cho hệ phương trình $\begin{cases} mx - y = 3 \\ 2x + my = 9 \end{cases}$ (với $m$ là tham số).</p></div>
+    </div>
+    <div class='answer-row'>
+        <div class='option-box'>
+          <div class='option-label'>a)</div>
+          <div class='math-content'>Khi $m = 1$, hệ phương trình có nghiệm là $(x; y) = (4; 1)$.</div>
+        </div>
+        <div class='radio-buttons'>
+          <label><input type='radio' name='tf-q2a' value='Đ'> Đúng</label>
+          <label><input type='radio' name='tf-q2a' value='S'> Sai</label>
+        </div>
+      </div>
+    <div class='answer-row'>
+        <div class='option-box'>
+          <div class='option-label'>b)</div>
+          <div class='math-content'>Hệ phương trình luôn có nghiệm duy nhất $(x; y)$ với mọi giá trị thực của tham số $m$.</div>
+        </div>
+        <div class='radio-buttons'>
+          <label><input type='radio' name='tf-q2b' value='Đ'> Đúng</label>
+          <label><input type='radio' name='tf-q2b' value='S'> Sai</label>
+        </div>
+      </div>
+    <div class='answer-row'>
+        <div class='option-box'>
+          <div class='option-label'>c)</div>
+          <div class='math-content'>Khi hệ phương trình có nghiệm duy nhất, nghiệm đó là $(x; y) = \left( \frac{3m - 9}{m^2 + 2}; \frac{9m + 6}{m^2 + 2} \right)$.</div>
+        </div>
+        <div class='radio-buttons'>
+          <label><input type='radio' name='tf-q2c' value='Đ'> Đúng</label>
+          <label><input type='radio' name='tf-q2c' value='S'> Sai</label>
+        </div>
+      </div>
+    <div class='answer-row'>
+        <div class='option-box'>
+          <div class='option-label'>d)</div>
+          <div class='math-content'>Tổng tất cả các giá trị nguyên của $m$ để hệ có nghiệm duy nhất sao cho biểu thức $A = 3x - y$ nhận giá trị nguyên là $0$.</div>
+        </div>
+        <div class='radio-buttons'>
+          <label><input type='radio' name='tf-q2d' value='Đ'> Đúng</label>
+          <label><input type='radio' name='tf-q2d' value='S'> Sai</label>
+        </div>
+      </div>
+    <button class='solution-toggle' onclick="toggleSolution('tf-q2')">Hiện (Ẩn) lời giải</button>
+    <div class='solution-text' id='solution-tf-q2'>
+      <p><strong>Lời giải:</strong></p>
+    <div class='text-math-container'>a) Thay $m = 1$ vào hệ phương trình, ta được:</div>
+    <div class='text-math-container'>$\begin{cases} x - y = 3 \\ 2x + y = 9 \end{cases} \Leftrightarrow \begin{cases} 3x = 12 \\ y = x - 3 \end{cases} \Leftrightarrow \begin{cases} x = 4 \\ y = 1 \end{cases}$.</div>
+    <div class='text-math-container'>Vậy khi $m=1$, hệ có nghiệm $(x; y) = (4; 1)$.</div>
+    <div class='text-math-container'>b) Từ phương trình thứ nhất, ta có $y = mx - 3$. Thế vào phương trình thứ hai, ta được:</div>
+    <div class='text-math-container'>$2x + m(mx - 3) = 9 \Leftrightarrow 2x + m^2x - 3m = 9 \Leftrightarrow x(m^2 + 2) = 3m + 9$.</div>
+    <div class='text-math-container'>Vì $m^2 \ge 0$ nên $m^2 + 2 \ge 2 > 0$ với mọi số thực $m$. Phương trình luôn có duy nhất một nghiệm $x$, kéo theo hệ luôn có nghiệm $(x; y)$ duy nhất.</div>
+    <div class='text-math-container'>c) Theo chứng minh ở ý b), ta có $x = \frac{3m + 9}{m^2 + 2}$.</div>
+    <div class='text-math-container'>Thay vào biểu thức của $y$, ta được:</div>
+    <div class='text-math-container'>$y = m \cdot \frac{3m + 9}{m^2 + 2} - 3 = \frac{3m^2 + 9m - 3(m^2 + 2)}{m^2 + 2} = \frac{9m - 6}{m^2 + 2}$.</div>
+    <div class='text-math-container'>Vậy nghiệm duy nhất của hệ phải là $(x; y) = \left( \frac{3m + 9}{m^2 + 2}; \frac{9m - 6}{m^2 + 2} \right)$.</div>
+    <div class='text-math-container'>d) Thay biểu thức $x, y$ vào $A$, ta có:</div>
+    <div class='text-math-container'>$A = 3x - y = 3\left(\frac{3m + 9}{m^2 + 2}\right) - \frac{9m - 6}{m^2 + 2} = \frac{9m + 27 - 9m + 6}{m^2 + 2} = \frac{33}{m^2 + 2}$.</div>
+    <div class='text-math-container'>Để $A \in \mathbb{Z}$ thì $33$ phải chia hết cho $m^2 + 2$. Mà $m^2 + 2 \ge 2$, nên $m^2 + 2 \in \{3; 11; 33\}$.</div>
+    <div class='text-math-container'>- Nếu $m^2 + 2 = 3 \Rightarrow m^2 = 1 \Rightarrow m \in \{1; -1\}$.</div>
+    <div class='text-math-container'>- Nếu $m^2 + 2 = 11 \Rightarrow m^2 = 9 \Rightarrow m \in \{3; -3\}$.</div>
+    <div class='text-math-container'>- Nếu $m^2 + 2 = 33 \Rightarrow m^2 = 31 \Rightarrow m \notin \mathbb{Z}$ (loại).</div>
+    <div class='text-math-container'>Vậy các giá trị nguyên của $m$ thỏa mãn là $-3; -1; 1; 3$. Tổng các giá trị này là $(-3) + (-1) + 1 + 3 = 0$.</div>
+    </div>
+  </div>
+  <div class='question' id='tf-q3'>
+    <div class='question-header'><button class='label-button'>Câu 15</button></div>
+    <div class='question-title'>
+      <div class='text-math-container'><p>Cho hệ phương trình $\begin{cases} mx + 4y = 10 - m \\ x + my = 4 \end{cases}$ ($m$ là tham số).</p></div>
+    </div>
+    <div class='answer-row'>
+        <div class='option-box'>
+          <div class='option-label'>a)</div>
+          <div class='math-content'>Hệ phương trình có nghiệm duy nhất khi và chỉ khi $m \neq \pm 2$.</div>
+        </div>
+        <div class='radio-buttons'>
+          <label><input type='radio' name='tf-q3a' value='Đ'> Đúng</label>
+          <label><input type='radio' name='tf-q3a' value='S'> Sai</label>
+        </div>
+      </div>
+    <div class='answer-row'>
+        <div class='option-box'>
+          <div class='option-label'>b)</div>
+          <div class='math-content'>Khi hệ có nghiệm duy nhất $(x; y)$, ta luôn có $y = \frac{5}{m - 2}$.</div>
+        </div>
+        <div class='radio-buttons'>
+          <label><input type='radio' name='tf-q3b' value='Đ'> Đúng</label>
+          <label><input type='radio' name='tf-q3b' value='S'> Sai</label>
+        </div>
+      </div>
+    <div class='answer-row'>
+        <div class='option-box'>
+          <div class='option-label'>c)</div>
+          <div class='math-content'>Có $8$ giá trị nguyên của tham số $m$ để hệ có nghiệm duy nhất $(x; y)$ thỏa mãn $x > 0$ và $y > 0$.</div>
+        </div>
+        <div class='radio-buttons'>
+          <label><input type='radio' name='tf-q3c' value='Đ'> Đúng</label>
+          <label><input type='radio' name='tf-q3c' value='S'> Sai</label>
+        </div>
+      </div>
+    <div class='answer-row'>
+        <div class='option-box'>
+          <div class='option-label'>d)</div>
+          <div class='math-content'>Có $3$ giá trị nguyên của tham số $m$ để hệ có nghiệm duy nhất $(x; y)$ sao cho $x, y$ đều là các số nguyên dương.</div>
+        </div>
+        <div class='radio-buttons'>
+          <label><input type='radio' name='tf-q3d' value='Đ'> Đúng</label>
+          <label><input type='radio' name='tf-q3d' value='S'> Sai</label>
+        </div>
+      </div>
+    <button class='solution-toggle' onclick="toggleSolution('tf-q3')">Hiện (Ẩn) lời giải</button>
+    <div class='solution-text' id='solution-tf-q3'>
+      <p><strong>Lời giải:</strong></p>
+    <div class='text-math-container'>a) Đúng. Hệ phương trình có nghiệm duy nhất khi và chỉ khi $\frac{m}{1} \neq \frac{4}{m} \Leftrightarrow m^2 \neq 4 \Leftrightarrow m \neq \pm 2$.</div>
+    <div class='text-math-container'>b) Sai. Với $m \neq \pm 2$, từ phương trình (2) ta có $x = 4 - my$. Thế vào phương trình (1):</div>
+    <div class='text-math-container'>$m(4 - my) + 4y = 10 - m \Leftrightarrow 4m - m^2y + 4y = 10 - m \Leftrightarrow (4 - m^2)y = 10 - 5m \Leftrightarrow (2 - m)(2 + m)y = 5(2 - m)$.</div>
+    <div class='text-math-container'>Vì $m \neq 2$ nên $y = \frac{5}{m + 2}$. Khi đó $x = 4 - m\left(\frac{5}{m + 2}\right) = \frac{8 - m}{m + 2}$.</div>
+    <div class='text-math-container'>Vậy biểu thức đúng phải là $y = \frac{5}{m + 2}$.</div>
+    <div class='text-math-container'>c) Đúng. Để $x > 0, y > 0$ thì $\begin{cases} \frac{8 - m}{m + 2} > 0 \\ \frac{5}{m + 2} > 0 \end{cases}$.</div>
+    <div class='text-math-container'>Từ $\frac{5}{m + 2} > 0 \Rightarrow m + 2 > 0 \Leftrightarrow m > -2$.</div>
+    <div class='text-math-container'>Khi đó $m + 2 > 0$ nên từ $\frac{8 - m}{m + 2} > 0 \Rightarrow 8 - m > 0 \Leftrightarrow m < 8$.</div>
+    <div class='text-math-container'>Suy ra $-2 < m < 8$. Kết hợp điều kiện $m \neq 2$ và $m \in \mathbb{Z}$, ta được $m \in \{-1; 0; 1; 3; 4; 5; 6; 7\}$. Có tất cả $8$ giá trị.</div>
+    <div class='text-math-container'>d) Sai. Để $x, y$ là số nguyên dương thì $y = \frac{5}{m + 2} \in \mathbb{Z}^+ \Rightarrow m + 2$ là ước dương của $5$.</div>
+    <div class='text-math-container'>Suy ra $m + 2 \in \{1; 5\}$.</div>
+    <div class='text-math-container'>Trường hợp 1: $m + 2 = 1 \Leftrightarrow m = -1 \Rightarrow x = \frac{8 - (-1)}{-1 + 2} = 9 \in \mathbb{Z}^+$ (thỏa mãn).</div>
+    <div class='text-math-container'>Trường hợp 2: $m + 2 = 5 \Leftrightarrow m = 3 \Rightarrow x = \frac{8 - 3}{3 + 2} = 1 \in \mathbb{Z}^+$ (thỏa mãn).</div>
+    <div class='text-math-container'>Vậy chỉ có $2$ giá trị nguyên của $m$ ($m = -1$ và $m = 3$) thỏa mãn yêu cầu bài toán.</div>
+    </div>
+  </div>
+  <div class='question' id='tf-q4'>
+    <div class='question-header'><button class='label-button'>Câu 16</button></div>
+    <div class='question-title'>
+      <div class='text-math-container'><p>Cho hệ phương trình: $\begin{cases} 2x + y = 5m - 1 \\ x - 2y = 2 \end{cases}$ ($m$ là tham số).</p></div>
+    </div>
+    <div class='answer-row'>
+        <div class='option-box'>
+          <div class='option-label'>a)</div>
+          <div class='math-content'>Khi $m = 1$, hệ phương trình có nghiệm là $(x; y) = (2; 0)$.</div>
+        </div>
+        <div class='radio-buttons'>
+          <label><input type='radio' name='tf-q4a' value='Đ'> Đúng</label>
+          <label><input type='radio' name='tf-q4a' value='S'> Sai</label>
+        </div>
+      </div>
+    <div class='answer-row'>
+        <div class='option-box'>
+          <div class='option-label'>b)</div>
+          <div class='math-content'>Nghiệm duy nhất của hệ phương trình với mọi tham số $m$ là $(x; y) = (2m; 1 - m)$.</div>
+        </div>
+        <div class='radio-buttons'>
+          <label><input type='radio' name='tf-q4b' value='Đ'> Đúng</label>
+          <label><input type='radio' name='tf-q4b' value='S'> Sai</label>
+        </div>
+      </div>
+    <div class='answer-row'>
+        <div class='option-box'>
+          <div class='option-label'>c)</div>
+          <div class='math-content'>Hệ phương trình có nghiệm $(x; y)$ thỏa mãn $x > 0$ và $y > 0$ khi và chỉ khi $m > 0$.</div>
+        </div>
+        <div class='radio-buttons'>
+          <label><input type='radio' name='tf-q4c' value='Đ'> Đúng</label>
+          <label><input type='radio' name='tf-q4c' value='S'> Sai</label>
+        </div>
+      </div>
+    <div class='answer-row'>
+        <div class='option-box'>
+          <div class='option-label'>d)</div>
+          <div class='math-content'>Tổng các giá trị của tham số $m$ để hệ phương trình có nghiệm $(x; y)$ thỏa mãn $x^2 - 2y^2 = 1$ bằng $-2$.</div>
+        </div>
+        <div class='radio-buttons'>
+          <label><input type='radio' name='tf-q4d' value='Đ'> Đúng</label>
+          <label><input type='radio' name='tf-q4d' value='S'> Sai</label>
+        </div>
+      </div>
+    <button class='solution-toggle' onclick="toggleSolution('tf-q4')">Hiện (Ẩn) lời giải</button>
+    <div class='solution-text' id='solution-tf-q4'>
+      <p><strong>Lời giải:</strong></p>
+    <div class='text-math-container'>a) Đúng. Thay $m = 1$ vào hệ phương trình, ta được: $\begin{cases} 2x + y = 4 \\ x - 2y = 2 \end{cases} \Leftrightarrow \begin{cases} 4x + 2y = 8 \\ x - 2y = 2 \end{cases} \Leftrightarrow \begin{cases} 5x = 10 \\ y = 4 - 2x \end{cases} \Leftrightarrow \begin{cases} x = 2 \\ y = 0 \end{cases}$.</div>
+    <div class='text-math-container'>b) Sai. Từ phương trình thứ hai ta có $x = 2y + 2$. Thế vào phương trình thứ nhất ta được: $2(2y + 2) + y = 5m - 1 \Leftrightarrow 5y + 4 = 5m - 1 \Leftrightarrow 5y = 5m - 5 \Leftrightarrow y = m - 1$.</div>
+    <div class='text-math-container'>Suy ra $x = 2(m - 1) + 2 = 2m$.</div>
+    <div class='text-math-container'>Vậy nghiệm tổng quát của hệ phương trình là $(x; y) = (2m; m - 1)$.</div>
+    <div class='text-math-container'>c) Sai. Để $x > 0$ và $y > 0$ thì $\begin{cases} 2m > 0 \\ m - 1 > 0 \end{cases} \Leftrightarrow \begin{cases} m > 0 \\ m > 1 \end{cases} \Leftrightarrow m > 1$.</div>
+    <div class='text-math-container'>d) Đúng. Theo câu b, ta thay $x = 2m$ và $y = m - 1$ vào hệ thức $x^2 - 2y^2 = 1$, ta có:</div>
+    <div class='text-math-container'>$(2m)^2 - 2(m - 1)^2 = 1 \Leftrightarrow 4m^2 - 2(m^2 - 2m + 1) = 1 \Leftrightarrow 2m^2 + 4m - 3 = 0$.</div>
+    <div class='text-math-container'>Phương trình bậc hai ẩn $m$ có $a \cdot c = 2 \cdot (-3) = -6 < 0$ nên luôn có hai nghiệm phân biệt $m_1, m_2$.</div>
+    <div class='text-math-container'>Áp dụng định lý Vi-ét, tổng các giá trị của $m$ là $m_1 + m_2 = \frac{-4}{2} = -2$.</div>
+    <div class='text-math-container'>Phần 3. Trả lời ngắn</div>
+    </div>
+  </div>
+</div>
+<div class='question-section' id='short-section'>
+  <h2>Phần III: Trắc nghiệm Trả lời ngắn</h2>
+  <p class='centered-text'>Điền đáp số chính xác vào ô trống.</p>
+  <div class='question' id='short-q1'>
+    <div class='question-header'><button class='label-button'>Câu 17</button></div>
+    <div class='text-math-container'><p>Biết rằng đa thức $P(x)$ chia hết cho đa thức $x - a$ khi và chỉ khi $P(a) = 0$. Cho đa thức $P(x) = mx^3 + (m-5)x^2 - (2n+1)x + 3n$. Biết đa thức $P(x)$ đồng thời chia hết cho $x + 2$ và $x - 1$. Tính giá trị của biểu thức $S = 3m + 3n$.</p></div>
+    <div class='short-answer'>
+      <input type='text' id='answer-short-q1' name='answer-short-q1' placeholder='Nhập đáp số của bạn'>
+    </div>
+    <button class='solution-toggle' onclick="toggleSolution('short-q1')">Hiện (Ẩn) lời giải</button>
+    <div id='solution-short-q1' class='solution-text'>
+      <p><strong>Lời giải:</strong></p>
+    <div class='text-math-container'>Theo giả thiết, đa thức $P(x)$ chia hết cho $x + 2$ và $x - 1$ nên ta có $P(-2) = 0$ và $P(1) = 0$.</div>
+    <div class='text-math-container'>Ta thiết lập được hệ phương trình:</div>
+    <div class='text-math-container'>$\begin{cases} m(-2)^3 + (m-5)(-2)^2 - (2n+1)(-2) + 3n = 0 \\ m(1)^3 + (m-5)(1)^2 - (2n+1)(1) + 3n = 0 \end{cases}$</div>
+    <div class='text-math-container'>$\Leftrightarrow \begin{cases} -8m + 4(m-5) + 2(2n+1) + 3n = 0 \\ m + m - 5 - (2n+1) + 3n = 0 \end{cases}$</div>
+    <div class='text-math-container'>$\Leftrightarrow \begin{cases} -8m + 4m - 20 + 4n + 2 + 3n = 0 \\ 2m - 5 - 2n - 1 + 3n = 0 \end{cases}$</div>
+    <div class='text-math-container'>$\Leftrightarrow \begin{cases} -4m + 7n = 18 \\ 2m + n = 6 \end{cases}$</div>
+    <div class='text-math-container'>Giải hệ phương trình trên, ta thu được $m = \frac{4}{3}$ và $n = \frac{10}{3}$.</div>
+    <div class='text-math-container'>Thay các giá trị vừa tìm được vào biểu thức $S$, ta có:</div>
+    <div class='text-math-container'>$S = 3 \cdot \frac{4}{3} + 3 \cdot \frac{10}{3} = 4 + 10 = 14$</div>
+    </div>
+  </div>
+  <div class='question' id='short-q2'>
+    <div class='question-header'><button class='label-button'>Câu 18</button></div>
+    <div class='text-math-container'><p>Cho hai đường thẳng $(d_1): mx - 2(3n+2)y = 6$ và $(d_2): (3m-1)x + 2ny = 56$. Biết $(d_1)$ và $(d_2)$ cắt nhau tại điểm $I(2; -5)$. Tính giá trị của biểu thức $S = m + n$.</p></div>
+    <div class='short-answer'>
+      <input type='text' id='answer-short-q2' name='answer-short-q2' placeholder='Nhập đáp số của bạn'>
+    </div>
+    <button class='solution-toggle' onclick="toggleSolution('short-q2')">Hiện (Ẩn) lời giải</button>
+    <div id='solution-short-q2' class='solution-text'>
+      <p><strong>Lời giải:</strong></p>
+    <div class='text-math-container'>Vì $(d_1)$ và $(d_2)$ cắt nhau tại điểm $I(2; -5)$ nên tọa độ của $I$ thỏa mãn phương trình của cả hai đường thẳng.</div>
+    <div class='text-math-container'>Thay $x = 2$ và $y = -5$ vào phương trình của $(d_1)$ và $(d_2)$, ta có hệ phương trình:</div>
+    <div class='text-math-container'>$\begin{cases} m \cdot 2 - 2(3n+2) \cdot (-5) = 6 \\ (3m-1) \cdot 2 + 2n \cdot (-5) = 56 \end{cases}$</div>
+    <div class='text-math-container'>$\Leftrightarrow \begin{cases} 2m + 10(3n+2) = 6 \\ 6m - 2 - 10n = 56 \end{cases}$</div>
+    <div class='text-math-container'>$\Leftrightarrow \begin{cases} 2m + 30n + 20 = 6 \\ 6m - 10n = 58 \end{cases}$</div>
+    <div class='text-math-container'>$\Leftrightarrow \begin{cases} 2m + 30n = -14 \\ 6m - 10n = 58 \end{cases}$</div>
+    <div class='text-math-container'>$\Leftrightarrow \begin{cases} m + 15n = -7 \\ 3m - 5n = 29 \end{cases}$</div>
+    <div class='text-math-container'>Từ phương trình thứ nhất ta có $m = -15n - 7$. Thay vào phương trình thứ hai:</div>
+    <div class='text-math-container'>$3(-15n - 7) - 5n = 29$</div>
+    <div class='text-math-container'>$\Leftrightarrow -45n - 21 - 5n = 29$</div>
+    <div class='text-math-container'>$\Leftrightarrow -50n = 50 \Leftrightarrow n = -1$</div>
+    <div class='text-math-container'>Suy ra $m = -15(-1) - 7 = 8$.</div>
+    <div class='text-math-container'>Vậy $m = 8$ và $n = -1$. Khi đó $S = m + n = 8 + (-1) = 7$.</div>
+    </div>
+  </div>
+  <div class='question' id='short-q3'>
+    <div class='question-header'><button class='label-button'>Câu 19</button></div>
+    <div class='text-math-container'><p>Cho hai đường thẳng $(d): 2x - y = 3$ và $(d'): x + 2y = 4$. Gọi $M(x_0; y_0)$ là tọa độ giao điểm của $(d)$ và $(d')$. Tính giá trị của biểu thức $S = x_0 + y_0$.</p></div>
+    <div class='short-answer'>
+      <input type='text' id='answer-short-q3' name='answer-short-q3' placeholder='Nhập đáp số của bạn'>
+    </div>
+    <button class='solution-toggle' onclick="toggleSolution('short-q3')">Hiện (Ẩn) lời giải</button>
+    <div id='solution-short-q3' class='solution-text'>
+      <p><strong>Lời giải:</strong></p>
+    <div class='text-math-container'>Tọa độ giao điểm $M(x_0; y_0)$ của hai đường thẳng $(d)$ và $(d')$ là nghiệm của hệ phương trình:</div>
+    <div class='text-math-container'>$\begin{cases} 2x - y = 3 \\ x + 2y = 4 \end{cases}$</div>
+    <div class='text-math-container'>$\Leftrightarrow \begin{cases} 4x - 2y = 6 \\ x + 2y = 4 \end{cases}$</div>
+    <div class='text-math-container'>$\Leftrightarrow \begin{cases} 5x = 10 \\ x + 2y = 4 \end{cases}$</div>
+    <div class='text-math-container'>$\Leftrightarrow \begin{cases} x = 2 \\ 2 + 2y = 4 \end{cases}$</div>
+    <div class='text-math-container'>$\Leftrightarrow \begin{cases} x = 2 \\ y = 1 \end{cases}$</div>
+    <div class='text-math-container'>Vậy tọa độ giao điểm là $M(2; 1)$, suy ra $x_0 = 2$ và $y_0 = 1$.</div>
+    <div class='text-math-container'>Giá trị của biểu thức $S = x_0 + y_0 = 2 + 1 = 3$.</div>
+    </div>
+  </div>
+  <div class='question' id='short-q4'>
+    <div class='question-header'><button class='label-button'>Câu 20</button></div>
+    <div class='text-math-container'><p>Xác định các hệ số $a, b$ để đồ thị hàm số $y = ax + b$ đi qua hai điểm $A(2; 1)$ và $B(1; 2)$. Tính giá trị của biểu thức $S = a^2 + b^2$.</p></div>
+    <div class='short-answer'>
+      <input type='text' id='answer-short-q4' name='answer-short-q4' placeholder='Nhập đáp số của bạn'>
+    </div>
+    <button class='solution-toggle' onclick="toggleSolution('short-q4')">Hiện (Ẩn) lời giải</button>
+    <div id='solution-short-q4' class='solution-text'>
+      <p><strong>Lời giải:</strong></p>
+    <div class='text-math-container'>Vì đồ thị hàm số $y = ax + b$ đi qua điểm $A(2; 1)$ nên tọa độ điểm $A$ thỏa mãn phương trình:</div>
+    <div class='text-math-container'>$2a + b = 1$ (1)</div>
+    <div class='text-math-container'>Tương tự, đồ thị đi qua điểm $B(1; 2)$ nên tọa độ điểm $B$ thỏa mãn phương trình:</div>
+    <div class='text-math-container'>$a + b = 2$ (2)</div>
+    <div class='text-math-container'>Từ (1) và (2), ta có hệ phương trình:</div>
+    <div class='text-math-container'>$\begin{cases} 2a + b = 1 \\ a + b = 2 \end{cases}$</div>
+    <div class='text-math-container'>$\Leftrightarrow \begin{cases} a = -1 \\ a + b = 2 \end{cases}$</div>
+    <div class='text-math-container'>$\Leftrightarrow \begin{cases} a = -1 \\ -1 + b = 2 \end{cases}$</div>
+    <div class='text-math-container'>$\Leftrightarrow \begin{cases} a = -1 \\ b = 3 \end{cases}$</div>
+    <div class='text-math-container'>Thay $a = -1$ và $b = 3$ vào biểu thức $S$, ta được:</div>
+    <div class='text-math-container'>$S = (-1)^2 + 3^2 = 1 + 9 = 10$.</div>
+    </div>
+  </div>
+  <div class='question' id='short-q5'>
+    <div class='question-header'><button class='label-button'>Câu 21</button></div>
+    <div class='text-math-container'><p>Cho hệ phương trình $\begin{cases} (3a+b)x + (4a-b+1)y = 35 \\ bx + 4ay = 29 \end{cases}$ với $a, b$ là các tham số. Biết hệ phương trình có nghiệm $(x; y) = (1; -3)$. Tính giá trị của biểu thức $S = a + b$.</p></div>
+    <div class='short-answer'>
+      <input type='text' id='answer-short-q5' name='answer-short-q5' placeholder='Nhập đáp số của bạn'>
+    </div>
+    <button class='solution-toggle' onclick="toggleSolution('short-q5')">Hiện (Ẩn) lời giải</button>
+    <div id='solution-short-q5' class='solution-text'>
+      <p><strong>Lời giải:</strong></p>
+    <div class='text-math-container'>Vì hệ phương trình có nghiệm $(x; y) = (1; -3)$ nên thay $x = 1$ và $y = -3$ vào hệ phương trình, ta được:</div>
+    <div class='text-math-container'>$\begin{cases} (3a+b) \cdot 1 + (4a-b+1) \cdot (-3) = 35 \\ b \cdot 1 + 4a \cdot (-3) = 29 \end{cases}$</div>
+    <div class='text-math-container'>$\Leftrightarrow \begin{cases} 3a + b - 12a + 3b - 3 = 35 \\ -12a + b = 29 \end{cases}$</div>
+    <div class='text-math-container'>$\Leftrightarrow \begin{cases} -9a + 4b = 38 \\ -12a + b = 29 \end{cases}$</div>
+    <div class='text-math-container'>Từ phương trình thứ hai ta suy ra $b = 12a + 29$. Thay vào phương trình thứ nhất, ta có:</div>
+    <div class='text-math-container'>$-9a + 4(12a + 29) = 38$</div>
+    <div class='text-math-container'>$\Leftrightarrow -9a + 48a + 116 = 38$</div>
+    <div class='text-math-container'>$\Leftrightarrow 39a = -78$</div>
+    <div class='text-math-container'>$\Leftrightarrow a = -2$</div>
+    <div class='text-math-container'>Thay $a = -2$ vào biểu thức của $b$, ta được $b = 12 \cdot (-2) + 29 = 5$.</div>
+    <div class='text-math-container'>Vậy $a = -2$ và $b = 5$.</div>
+    <div class='text-math-container'>Khi đó, giá trị của biểu thức $S = a + b = -2 + 5 = 3$.</div>
+    </div>
+  </div>
+  <div class='question' id='short-q6'>
+    <div class='question-header'><button class='label-button'>Câu 22</button></div>
+    <div class='text-math-container'><p>Trong mặt phẳng tọa độ $Oxy$, cho ba đường thẳng $(d_1): 2x - y = -1; (d_2): x + y = -2; (d_3): y = -2x - m$. Xác định giá trị của tham số $m$ để ba đường thẳng đã cho đồng quy.</p></div>
+    <div class='short-answer'>
+      <input type='text' id='answer-short-q6' name='answer-short-q6' placeholder='Nhập đáp số của bạn'>
+    </div>
+    <button class='solution-toggle' onclick="toggleSolution('short-q6')">Hiện (Ẩn) lời giải</button>
+    <div id='solution-short-q6' class='solution-text'>
+      <p><strong>Lời giải:</strong></p>
+    <div class='text-math-container'>Tọa độ giao điểm $A$ của hai đường thẳng $(d_1)$ và $(d_2)$ là nghiệm của hệ phương trình:</div>
+    <div class='text-math-container'>$\begin{cases} 2x - y = -1 \\ x + y = -2 \end{cases}$</div>
+    <div class='text-math-container'>Cộng vế với vế hai phương trình, ta được:</div>
+    <div class='text-math-container'>$3x = -3 \Leftrightarrow x = -1$</div>
+    <div class='text-math-container'>Thay $x = -1$ vào phương trình $x + y = -2$, ta có:</div>
+    <div class='text-math-container'>$-1 + y = -2 \Leftrightarrow y = -1$</div>
+    <div class='text-math-container'>Suy ra tọa độ giao điểm của $(d_1)$ và $(d_2)$ là $A(-1; -1)$.</div>
+    <div class='text-math-container'>Để ba đường thẳng $(d_1), (d_2)$ và $(d_3)$ đồng quy thì đường thẳng $(d_3)$ phải đi qua điểm $A(-1; -1)$.</div>
+    <div class='text-math-container'>Thay $x = -1$ và $y = -1$ vào phương trình đường thẳng $(d_3)$, ta được:</div>
+    <div class='text-math-container'>$-1 = -2 \cdot (-1) - m$</div>
+    <div class='text-math-container'>$\Leftrightarrow -1 = 2 - m$</div>
+    <div class='text-math-container'>$\Leftrightarrow m = 3$</div>
+    <div class='text-math-container'>Vậy giá trị cần tìm là $m = 3$.</div>
+    </div>
+  </div>
+</div>
+
+                <button id="grade-button">Nộp bài và xem kết quả</button>
+            </div>
+
+            <div id="report-area" class="hidden">
+                <h3>Kết quả bài làm của bạn</h3>
+                <p><strong>Họ và tên:</strong> <span id="report-name"></span></p>
+                <p><strong>Điểm của bạn:</strong> <span id="score"></span></p>
+                <p><strong>Thời gian làm bài:</strong> <span id="time-taken"></span></p>
+                <div id="detailed-report" style="margin-top: 20px;"></div>
+            </div>
+        </div>
+    <script>
+const correctAnswers = {
+    'mcq-q1': 'Qg==',
+    'mcq-q2': 'Qg==',
+    'mcq-q3': 'Qg==',
+    'mcq-q4': 'QQ==',
+    'mcq-q5': 'RA==',
+    'mcq-q6': 'Qg==',
+    'mcq-q7': 'QQ==',
+    'mcq-q8': 'Qg==',
+    'mcq-q9': 'Qg==',
+    'mcq-q10': 'Qg==',
+    'mcq-q11': 'Qw==',
+    'mcq-q12': 'Qg==',
+    'tf-q1a': 'xJA=',
+    'tf-q1b': 'xJA=',
+    'tf-q1c': 'Uw==',
+    'tf-q1d': 'xJA=',
+    'tf-q2a': 'xJA=',
+    'tf-q2b': 'xJA=',
+    'tf-q2c': 'Uw==',
+    'tf-q2d': 'xJA=',
+    'tf-q3a': 'xJA=',
+    'tf-q3b': 'Uw==',
+    'tf-q3c': 'xJA=',
+    'tf-q3d': 'Uw==',
+    'tf-q4a': 'xJA=',
+    'tf-q4b': 'Uw==',
+    'tf-q4c': 'Uw==',
+    'tf-q4d': 'xJA=',
+    'short-q1': 'MTQ=',
+    'short-q2': 'Nw==',
+    'short-q3': 'Mw==',
+    'short-q4': 'MTA=',
+    'short-q5': 'Mw==',
+    'short-q6': 'Mw==',
+};
+    const formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSdHDv4p-2UUDZ78ze0khddhSdU_KGgY9ECH0UdzIDRzVvPizA/formResponse';
+    const ENTRY_ID_NAME = 'entry.315994027';
+    const ENTRY_ID_MCQ = 'entry.1810056581';
+    const ENTRY_ID_TF = 'entry.568345186';
+    const ENTRY_ID_SA = 'entry.857933096';
+    const ENTRY_ID_SCORE = 'entry.136777600';
+    const SHUFFLE_QUESTIONS = true;
+    const SCORE_THRESHOLD = 5.0;
+    const POINTS_MCQ = 0.25;
+    const POINTS_SHORT = 0.5;
+    const POINTS_TF_1 = 0.1;
+    const POINTS_TF_2 = 0.25;
+    const POINTS_TF_3 = 0.5;
+    const POINTS_TF_4 = 1.0;
+
+    
+
+        const studentNameInput = document.getElementById('studentName');
+        const startBtn = document.getElementById('start-btn');
+        const quizContent = document.getElementById('quiz-content');
+        const countdownSpan = document.getElementById('countdown');
+        const gradeButton = document.getElementById('grade-button');
+        const reportArea = document.getElementById('report-area');
+        const reportName = document.getElementById('report-name');
+
+
+        const scoreSpan = document.getElementById('score');
+        const timeTakenSpan = document.getElementById('time-taken');
+        // === VÔ HIỆU HÓA CHUỘT PHẢI ĐỂ CHỐNG COPY ===
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault(); // Ngăn menu chuột phải hiển thị
+        });
+
+        let timer;
+    
+        let timeLeft = 5400; // 90 phút (được đặt tùy biến)
+
+        let quizStarted = false;
+        let startTime;
+
+        // Lăn chuột zoom hình ảnh
+        function initImageZoom() {
+            document.querySelectorAll('img').forEach(img => {
+                img.classList.add('real-image');
+                img.addEventListener('wheel', function(e) {
+                    e.preventDefault();
+                    let h = img.clientHeight;
+                    let delta = e.deltaY < 0 ? 40 : -40;
+                    let nh = h + delta;
+                    if(nh >= 150 && nh <= 1200) {
+                        img.style.maxHeight = 'none';
+                        img.style.height = nh + 'px';
+                        img.style.width = 'auto';
+                    }
+                });
+            });
+        }
+        // === HÀM GIẢI MÃ BASE64 ===
+        function decodeB64(b64Str) {
+            try { 
+                return decodeURIComponent(escape(atob(b64Str))); 
+            } 
+            catch(e) { return ''; }
+        }
+
+        // Hàm bắt đầu đếm ngược thời gian
+        function startTimer() {
+            startTime = Date.now();
+            timer = setInterval(() => {
+                timeLeft--;
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                countdownSpan.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    alert('Đã hết thời gian làm bài!');
+                    gradeQuiz();
+                }
+            }, 1000);
+        }
+
+        function toggleSolution(questionId) {
+            const solutionDiv = document.getElementById(`solution-${questionId}`);
+            const toggleBtn = event.currentTarget;
+
+            if (solutionDiv) {
+                const isHidden = solutionDiv.style.display === 'none' || solutionDiv.style.display === '';
+                solutionDiv.style.display = isHidden ? 'block' : 'none';
+                toggleBtn.textContent = isHidden ? 'Ẩn lời giải' : 'Hiện lời giải';
+
+                // Nếu hiện ra, re-render MathJax
+                if (isHidden) {
+                    MathJax.typesetPromise([solutionDiv]).catch(err => console.error("MathJax typesetting failed:", err));
+                }
+            } else {
+                console.error(`Không tìm thấy lời giải cho ID: solution-${questionId}`);
+            }
+        }
+
+        // Xử lý sự kiện khi click nút "Bắt đầu làm bài"
+        startBtn.addEventListener('click', () => {
+            const studentName = studentNameInput.value.trim();
+            if (studentName === '') {
+                alert('Vui lòng nhập họ và tên của bạn để bắt đầu!');
+                return;
+            }
+            if (quizStarted) return; // Ngăn không cho bắt đầu lại nếu đã bắt đầu
+
+            quizStarted = true;
+            document.querySelector('.student-info').classList.add('hidden');
+            
+            // === BẮT ĐẦU PHẦN CODE XÁO TRỘN & ĐÁNH SỐ LẠI ===
+
+            // Hàm xáo trộn mảng (Fisher-Yates Shuffle)
+            function shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+            }
+
+            // Hàm xáo trộn các câu hỏi con của một phần
+            function shuffleQuestions(sectionId) {
+                const container = document.getElementById(sectionId);
+                if (!container) return;
+                const questions = Array.from(container.querySelectorAll(':scope > .question'));
+                shuffleArray(questions);
+                questions.forEach(question => {
+                    container.appendChild(question);
+                });
+            }
+
+            // === HÀM MỚI ĐỂ ĐÁNH SỐ LẠI ===
+            // Hàm này tìm tất cả các '.label-button' trong một phần và đánh số lại chúng
+            function renumberLabels(sectionId, prefix) {
+                const container = document.getElementById(sectionId);
+                if (!container) return;
+
+                // Lấy tất cả các button nhãn trong phần này THEO THỨ TỰ MỚI
+                const labels = container.querySelectorAll('.label-button');
+                
+                // Duyệt qua và gán lại text
+                labels.forEach((label, index) => {
+                    // index bắt đầu từ 0, nên (index + 1) sẽ là 1, 2, 3...
+                    label.textContent = `${prefix} ${index + 1}`;
+                });
+            }
+            // === KẾT THÚC HÀM MỚI ===
+
+            // 1. Thực hiện xáo trộn cho cả 3 phần NẾU ĐƯỢC PHÉP
+            if (SHUFFLE_QUESTIONS) {
+                shuffleQuestions('mcq-section');
+                shuffleQuestions('tf-section');
+                shuffleQuestions('short-section');
+
+                // 2. Thực hiện đánh số lại cho cả 3 phần
+                renumberLabels('mcq-section', 'Câu');
+                renumberLabels('tf-section', 'Câu');
+                renumberLabels('short-section', 'Câu');
+            }
+
+
+            // === KẾT THÚC PHẦN CODE XÁO TRỘN & ĐÁNH SỐ LẠI ===
+
+            quizContent.classList.remove('hidden'); // Hiển thị bài thi sau khi đã xáo trộn
+            startTimer();
+            setTimeout(initImageZoom, 100);
+        });
+// Hàm này sẽ được gọi sau khi nộp bài để tô màu đáp án
+function highlightAnswers() {
+    // Phần I: MCQ
+    document.querySelectorAll('.question[id^="mcq-"]').forEach((questionDiv, index) => {
+        const questionId = questionDiv.id;
+        const selectedOption = document.querySelector(`input[name="${questionId}"]:checked`);
+        const correctAnswer = decodeB64(correctAnswers[questionId]);
+
+        // Highlight đáp án của người dùng
+        if (selectedOption) {
+            const parentLabel = selectedOption.closest('label.option');
+            if (parentLabel) {
+                if (selectedOption.value === correctAnswer) {
+                    parentLabel.style.backgroundColor = '#d4edda'; // Xanh lá cây nhạt cho đáp án đúng
+                    parentLabel.style.borderColor = '#28a745';
+                } else {
+                    parentLabel.style.backgroundColor = '#f8d7da'; // Đỏ nhạt cho đáp án sai
+                    parentLabel.style.borderColor = '#dc3545';
+                }
+            }
+        }
+
+        // Highlight đáp án đúng nếu người dùng chọn sai hoặc không chọn
+        const correctInput = document.querySelector(`input[name="${questionId}"][value="${correctAnswer}"]`);
+        if (correctInput) {
+            const parentLabel = correctInput.closest('label.option');
+            if (parentLabel && (selectedOption === null || selectedOption.value !== correctAnswer)) {
+                parentLabel.style.backgroundColor = '#cce5ff'; // Xanh dương nhạt cho đáp án đúng (khi người dùng sai)
+                parentLabel.style.borderColor = '#007bff';
+            }
+        }
+    });
+    // Phần II: TF
+    document.querySelectorAll('.question[id^="tf-q"]').forEach(questionDiv => {
+        const baseId = questionDiv.id; // Lấy ra ID, ví dụ: "tf-q1"
+
+        // Vòng lặp bên trong (a, b, c, d) giữ nguyên
+        ['a', 'b', 'c', 'd'].forEach(subId => {
+            const fullId = `${baseId}${subId}`; // Ví dụ: "tf-q1a"
+            
+            // Thêm 1 bước kiểm tra: Chỉ xử lý nếu ID này có đáp án
+            if (correctAnswers.hasOwnProperty(fullId)) {
+                const selectedOption = document.querySelector(`input[name="${fullId}"]:checked`);
+                const correctAnswer = decodeB64(correctAnswers[fullId]);
+
+                if (selectedOption) {
+                    const parentLabel = selectedOption.closest('label');
+                    if (parentLabel) {
+                        if (selectedOption.value === correctAnswer) {
+                            parentLabel.style.backgroundColor = '#d4edda';
+                            parentLabel.style.borderColor = '#28a745';
+                        } else {
+                            parentLabel.style.backgroundColor = '#f8d7da';
+                            parentLabel.style.borderColor = '#dc3545';
+                        }
+                    }
+                }
+                // Highlight đáp án đúng nếu người dùng chọn sai hoặc không chọn
+                const correctInput = document.querySelector(`input[name="${fullId}"][value="${correctAnswer}"]`);
+                if (correctInput) {
+                    const parentLabel = correctInput.closest('label');
+                    if (parentLabel && (selectedOption === null || selectedOption.value !== correctAnswer)) {
+                        parentLabel.style.backgroundColor = '#cce5ff';
+                        parentLabel.style.borderColor = '#007bff';
+                    }
+                }
+            } // Đóng if (correctAnswers.hasOwnProperty(fullId))
+        });
+    });
+    // === SỬA ĐẾN ĐÂY ===
+
+
+    // Phần III: Short Answer
+    document.querySelectorAll('.question[id^="short-"]').forEach(questionDiv => {
+        const questionId = questionDiv.id;
+        const inputField = document.getElementById(`answer-${questionId}`);
+        const solutionDiv = document.getElementById(`solution-${questionId}`); // Lấy div lời giải
+
+        if (inputField) {
+            const userAnswer = inputField.value.trim().toLowerCase();
+            const correctAnswer = decodeB64(correctAnswers[questionId]).toString().toLowerCase();
+
+            if (userAnswer === correctAnswer) {
+                inputField.style.backgroundColor = '#d4edda'; // Nền xanh nếu đúng
+                inputField.style.borderColor = '#28a745';
+            } else {
+                inputField.style.backgroundColor = '#f8d7da'; // Nền đỏ nếu sai
+                inputField.style.borderColor = '#dc3545';
+            }
+
+            // Hiển thị đáp án đúng ngay dưới ô input nếu sai
+            if (userAnswer !== correctAnswer && solutionDiv) {
+                let correctAnswerDisplay = solutionDiv.querySelector('.correct-answer-display');
+                if (!correctAnswerDisplay) {
+                    correctAnswerDisplay = document.createElement('p');
+                    correctAnswerDisplay.classList.add('correct-answer-display');
+                    correctAnswerDisplay.style.fontWeight = 'bold';
+                    correctAnswerDisplay.style.color = '#007bff'; // Màu xanh dương
+                    correctAnswerDisplay.style.marginTop = '10px';
+                    correctAnswerDisplay.style.textAlign = 'center';
+                    inputField.parentNode.appendChild(correctAnswerDisplay);
+                }
+                correctAnswerDisplay.innerHTML = `Đáp án đúng: <strong>${decodeB64(correctAnswers[questionId])}</strong>`;
+            }
+        }
+    });
+}
+        // Hàm chấm điểm bài thi
+// Hàm chấm điểm bài thi
+
+
+function gradeQuiz() {
+    clearInterval(timer); // Dừng đồng hồ
+    const endTime = Date.now();
+    const timeTakenSeconds = Math.floor((endTime - startTime) / 1000);
+    const minutesTaken = Math.floor(timeTakenSeconds / 60);
+    const secondsTaken = timeTakenSeconds % 60;
+
+    let totalScore = 0;
+    let correctCount = 0;
+    gradeButton.disabled = true;
+
+    // === Phần I: MCQ ===
+    document.querySelectorAll('.question[id^="mcq-"]').forEach(questionDiv => {
+        const questionId = questionDiv.id;
+        const selectedOption = document.querySelector(`input[name="${questionId}"]:checked`);
+        if (selectedOption && selectedOption.value === decodeB64(correctAnswers[questionId])) {
+            totalScore += POINTS_MCQ; // <== THAY ĐỔI
+            correctCount++;
+        }
+    });
+
+    // === Phần II: TF ===
+    document.querySelectorAll('.question[id^="tf-q"]').forEach(questionDiv => {
+        const baseId = questionDiv.id;
+        let correctSubCount = 0;
+        ['a', 'b', 'c', 'd'].forEach(subId => {
+            const fullId = `${baseId}${subId}`;
+            if (correctAnswers.hasOwnProperty(fullId)) {
+                const selectedOption = document.querySelector(`input[name="${fullId}"]:checked`);
+                if (selectedOption && selectedOption.value === decodeB64(correctAnswers[fullId])) {
+                    correctSubCount++;
+                    correctCount++;
+                }
+            }
+        });
+
+        switch (correctSubCount) {
+            case 1: totalScore += POINTS_TF_1; break; // <== THAY ĐỔI
+            case 2: totalScore += POINTS_TF_2; break; // <== THAY ĐỔI
+            case 3: totalScore += POINTS_TF_3; break; // <== THAY ĐỔI
+            case 4: totalScore += POINTS_TF_4; break; // <== THAY ĐỔI
+            default: break;
+        }
+    });
+
+    // === Phần III: Short Answer ===
+    document.querySelectorAll('.question[id^="short-"]').forEach(questionDiv => {
+        const questionId = questionDiv.id;
+        const inputField = document.getElementById(`answer-${questionId}`);
+        if (inputField) {
+            const userAnswer = inputField.value.trim().toLowerCase();
+            const correctAnswer = decodeB64(correctAnswers[questionId]).toString().toLowerCase();
+            if (userAnswer === correctAnswer) {
+                totalScore += POINTS_SHORT; // <== THAY ĐỔI
+                correctCount++;
+            }
+        }
+    });
+
+    // Hiển thị báo cáo
+    reportName.textContent = studentNameInput.value.trim();
+    const scoreStr = totalScore % 1 === 0 ? totalScore.toString() : totalScore.toFixed(2).replace(/\.?0+$/, '');
+    scoreSpan.textContent = scoreStr.replace('.', ',');
+    timeTakenSpan.textContent = `${minutesTaken} phút ${secondsTaken} giây`;
+
+    // === THAY ĐỔI: Sử dụng ngưỡng điểm động ===
+    const allowDetail = totalScore >= SCORE_THRESHOLD; 
+
+    if (allowDetail) {
+        highlightAnswers();
+        const detailedReport = document.getElementById('detailed-report');
+        let detailedHTML = '';
+
+        // --- Phần I: MCQ (Chi tiết) ---
+        detailedHTML += '<h4>Phần I: Trắc nghiệm nhiều lựa chọn</h4><ul>';
+        document.querySelectorAll('.question[id^="mcq-"]').forEach((questionDiv, index) => {
+            const questionId = questionDiv.id;
+            const selected = document.querySelector(`input[name="${questionId}"]:checked`);
+            const userAnswer = selected ? selected.value : '(chưa trả lời)';
+            const correctAnswer = decodeB64(correctAnswers[questionId]);
+            const isCorrect = userAnswer === correctAnswer;
+            const score = isCorrect ? POINTS_MCQ : 0; // <== THAY ĐỔI
+            detailedHTML += `<li>Câu ${index + 1}: Bạn chọn: <strong style="color: red">${userAnswer}</strong> - Đáp án: <strong>${correctAnswer}</strong> - Điểm: ${score.toString().replace('.', ',')}</li>`;
+        });
+        detailedHTML += '</ul>';
+        
+        // --- Phần II: Đúng/Sai (Chi tiết) ---
+        detailedHTML += '<h4>Phần II: Trắc nghiệm Đúng/Sai</h4><ul>';
+        document.querySelectorAll('#tf-section .question').forEach((questionDiv, tfIndex) => {
+            const baseId = questionDiv.id;
+            let userAnswers = [];
+            let correctAnswersList = [];
+            let correctSubCount = 0;
+
+            ['a', 'b', 'c', 'd'].forEach(subId => {
+                const fullId = `${baseId}${subId}`;
+                if (correctAnswers.hasOwnProperty(fullId)) {
+                    const selected = document.querySelector(`input[name="${fullId}"]:checked`);
+                    const userValue = selected ? selected.value : '(chưa trả lời)';
+                    const correctValue = decodeB64(correctAnswers[fullId]);
+                    userAnswers.push(userValue);
+                    correctAnswersList.push(correctValue);
+                    if (userValue === correctValue) {
+                        correctSubCount++;
+                    }
+                }
+            });
+
+            let partialScore = 0;
+            switch (correctSubCount) {
+                case 1: partialScore = POINTS_TF_1; break; // <== THAY ĐỔI
+                case 2: partialScore = POINTS_TF_2; break; // <== THAY ĐỔI
+                case 3: partialScore = POINTS_TF_3; break; // <== THAY ĐỔI
+                case 4: partialScore = POINTS_TF_4; break; // <== THAY ĐỔI
+                default: break;
+            }
+            detailedHTML += `<li>Câu ${tfIndex + 1}: Bạn chọn: <strong style="color: red">${userAnswers.join(';')}</strong> - Đáp án: <strong>${correctAnswersList.join(';')}</strong> - Điểm: ${partialScore.toString().replace('.', ',')}</li>`;
+        });
+        detailedHTML += '</ul>';
+
+        // --- Phần III: Tự luận ngắn (Chi tiết) ---
+        detailedHTML += '<h4>Phần III: Câu hỏi trả lời ngắn</h4><ul>';
+        document.querySelectorAll('.question[id^="short-"]').forEach((questionDiv, index) => {
+            const questionId = questionDiv.id;
+            const input = document.getElementById(`answer-${questionId}`);
+            const userAnswer = input ? input.value.trim() : '(chưa trả lời)';
+            const correctAnswer = decodeB64(correctAnswers[questionId]);
+            const isCorrect = userAnswer.toLowerCase() === correctAnswer.toLowerCase();
+            const score = isCorrect ? POINTS_SHORT : 0; // <== THAY ĐỔI
+            detailedHTML += `<li>Câu ${index + 1}: Bạn chọn: <strong style="color: red">${userAnswer || '(chưa trả lời)'}</strong> - Đáp án: <strong>${correctAnswer}</strong> - Điểm: ${score.toString().replace('.', ',')}</li>`;
+        });
+        detailedHTML += '</ul>';
+
+        detailedReport.innerHTML = detailedHTML;
+
+        document.querySelectorAll('.solution-toggle').forEach(button => {
+            button.style.display = 'inline-block';
+        });
+
+    } else {
+        // === THAY ĐỔI: Hiển thị ngưỡng điểm động ===
+        document.getElementById('detailed-report').innerHTML = `<p style="color: red;"><strong>Bạn chưa đủ ${SCORE_THRESHOLD} điểm để xem chi tiết và lời giải.</strong></p>`;
+        
+        document.querySelectorAll('.solution-toggle').forEach(button => {
+            button.style.display = 'none';
+        });
+        document.querySelectorAll('.solution-text').forEach(div => {
+            div.style.display = 'none';
+        });
+    }
+
+    reportArea.classList.remove('hidden');
+    document.querySelector('.countdown-container').classList.add('hidden');
+    gradeButton.disabled = true;
+    gradeButton.classList.add('disabled-button');
+
+    document.querySelectorAll('input[type="radio"], input[type="text"]').forEach(input => {
+        input.disabled = true;
+    });
+    reportArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // --- Gửi dữ liệu về Google Form ---
+    const formData = new FormData();
+    const studentName = studentNameInput.value.trim();
+    // === DÙNG BIẾN TÙY BIẾN (PHẦN THAY ĐỔI) ===
+    if (ENTRY_ID_NAME) {
+        formData.append(ENTRY_ID_NAME, studentName); // Họ và tên
+    }
+
+    // MCQ dạng: A;B;C;D...
+    let mcqAnswers = [];
+    document.querySelectorAll('.question[id^="mcq-"]').forEach(div => {
+        const qid = div.id;
+        const selected = document.querySelector(`input[name="${qid}"]:checked`);
+        mcqAnswers.push(selected ? selected.value : '');
+    });
+    if (ENTRY_ID_MCQ) {
+        formData.append(ENTRY_ID_MCQ, mcqAnswers.join(';'));
+    }
+
+    // TF dạng: Đ;S;S;Đ...
+    let tfAnswers = [];
+    document.querySelectorAll('.question[id^="tf-q"]').forEach(questionDiv => {
+        const baseId = questionDiv.id;
+        ['a', 'b', 'c', 'd'].forEach(sub => {
+            const fullId = `${baseId}${sub}`;
+            if (correctAnswers.hasOwnProperty(fullId)) {
+                const selected = document.querySelector(`input[name="${fullId}"]:checked`);
+                tfAnswers.push(selected ? selected.value : '');
+            }
+        });
+    });
+    if (ENTRY_ID_TF) {
+        formData.append(ENTRY_ID_TF, tfAnswers.join(';'));
+    }
+
+    // Short Answer dạng: 12;3,5;;...
+    let shortAnswers = [];
+    document.querySelectorAll('.question[id^="short-"]').forEach(div => {
+        const qid = div.id;
+        const input = document.getElementById(`answer-${qid}`);
+        shortAnswers.push(input ? input.value.trim() : '');
+    });
+    if (ENTRY_ID_SA) {
+        formData.append(ENTRY_ID_SA, shortAnswers.join(';'));
+    }
+
+    // Tổng điểm
+    if (ENTRY_ID_SCORE) {
+        formData.append(ENTRY_ID_SCORE, scoreStr.replace(',', '.')); // Google Form dùng dấu .
+    }
+// Gửi form
+if (formUrl) { // Chỉ gửi nếu 'formUrl' không rỗng
+    fetch(formUrl, {
+        method: "POST",
+        mode: "no-cors",
+        body: formData
+    });
+}
+} // <--- Kết thúc hàm gradeQuiz
+        // Gán sự kiện click cho nút "Nộp bài"
+        gradeButton.addEventListener('click', gradeQuiz);
+
+        // Khởi tạo trạng thái ban đầu: ẩn nội dung bài thi
+        document.addEventListener('DOMContentLoaded', () => {
+            quizContent.classList.add('hidden');
+            reportArea.classList.add('hidden');
+
+            // Render MathJax cho nội dung ban đầu (nếu có)
+            MathJax.typesetPromise().catch((err) => console.error("MathJax initial typesetting failed:", err));
+            // Gọi hàm zoom ảnh
+            initImageZoom();
+        });
+
+    </script>
+    </body>
+    </html>
